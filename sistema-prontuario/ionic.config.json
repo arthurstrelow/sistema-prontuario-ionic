@@ -1,0 +1,7 @@
+{
+  "name": "sistema-prontuario",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
