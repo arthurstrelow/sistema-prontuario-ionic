@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import Home from './pages/Abertura';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -32,6 +32,11 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import SignIn from './pages/singin';
+import SplashScreen from './pages/Abertura';
+import EsqueceuSenha from './pages/Senha_esquecida';
+import VerificarCodigo from './pages/verifica_code';
+import Confirmation from './pages/confirm';
 
 setupIonicReact();
 
@@ -39,11 +44,20 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
+        <Route exact path="/login">
+          <SignIn />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <SplashScreen />
+        </Route>
+        <Route exact path="/senha">
+          <EsqueceuSenha />
+        </Route>
+        <Route exact path="/code">
+          <VerificarCodigo/>
+        </Route>
+        <Route exact path="/confirm">
+          <Confirmation/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
