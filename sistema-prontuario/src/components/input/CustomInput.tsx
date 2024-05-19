@@ -6,13 +6,21 @@ interface CustomInputProps {
   type?: string;
   placeholder: string;
   icon: React.ReactElement;
+  value: string;
+  onChange: (e: CustomEvent) => void;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({ type = "text", placeholder, icon }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ placeholder, icon, value, onChange }) => {
   return (
     <IonItem className="custom-input-item">
       {icon}
-      <IonInput placeholder={placeholder} className="custom-input" />
+      <IonInput
+       
+        placeholder={placeholder}
+        className="custom-input"
+        value={value}
+        onIonChange={onChange}
+      />
     </IonItem>
   );
 };
