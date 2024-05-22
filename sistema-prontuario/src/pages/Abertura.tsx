@@ -3,7 +3,7 @@ import { IonPage, IonContent } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import '../css/abertura.css';
 
-const SplashScreen: React.FC = () => {
+const Abertura: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const SplashScreen: React.FC = () => {
     }, 2000);
 
     const redirectTimer = setTimeout(() => {
-      history.push('/login');
+      history.push('/entrar');
     }, 3000); // 1s for animation after 2s delay
 
     return () => {
@@ -32,4 +32,4 @@ const SplashScreen: React.FC = () => {
   );
 };
 
-export default SplashScreen;
+export default Abertura;

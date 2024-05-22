@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { IonContent, IonPage, IonToast } from '@ionic/react';
@@ -9,38 +9,33 @@ import CustomButton from '../components/button/CustomButton';
 import CustomInput from '../components/input/CustomInput';
 import '../css/singin.css';
 
-const SignIn: React.FC = () => {
+const Entrar: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const senhaRef = useRef('')
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const history = useHistory();
 
   const handleSubmit = async () => {
     try {
+
       const response = await axios.post('http://localhost:3000/api/entrar', {
         email_cpf: email,
-        senha: password
-      });
-      
-      // Assuming the token is in the response data
-      const { token } = response.data;
+        senha: senhaRef.current
+      })
+      const {data, token} = response.data
 
-      // Save the token in localStorage
       localStorage.setItem('token', token);
+      history.push("/inicio");
 
-      // Redirect to the home page
-      history.push("/");
-
-      // Handle success response
-      setToastMessage('Login realizado com sucesso!');
+      setToastMessage(data);
       setShowToast(true);
-      console.log(response.data);
+
     } catch (error) {
-      // Handle error response
-      setToastMessage('Erro ao realizar login. Por favor, tente novamente.');
+      // @ts-ignore
+      const msg = error.response === undefined ? 'Algo deu errado!' : e.response.data.data
+      setToastMessage(msg)
       setShowToast(true);
-      console.error(error);
     }
   };
 
@@ -60,10 +55,10 @@ const SignIn: React.FC = () => {
               type="password"
               placeholder="Digite sua senha"
               icon={<MdLock className="custom-input-icon" />}
-              value={password}
-              onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
+              value={senhaRef.current}
+              onChange={(e) => senhaRef.current = (e.target as HTMLInputElement).value}
             />
-            <a href="/forgot-password" className="forgot-link">Esqueci minha senha</a>
+            <a href="/esqueceu-senha" className="forgot-link">Esqueci minha senha</a>
           </div>
           <CustomButton text="Entrar" color="#800000" onClick={handleSubmit} />
           <div className="divider">
@@ -74,7 +69,7 @@ const SignIn: React.FC = () => {
             <FcGoogle size={24} color="#DB4437" />
           </div>
           <div className="register-link">
-            <a href="/senha"><span>Não tem uma conta? </span>Inscrever-se</a>
+            <a href="/"><span>Não tem uma conta? </span>Inscrever-se</a>
           </div>
         </div>
         <IonToast
@@ -88,4 +83,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default Entrar;

@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { IonContent, IonPage, IonToast } from '@ionic/react';
 import CustomButton from '../components/button/CustomButton';
 import CustomInput from '../components/input/CustomInput';
 import { MdEmail } from 'react-icons/md';
 import "../css/senha_esquecida.css";
+import {useHistory} from "react-router-dom";
 
 const EsqueceuSenha: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const emailRef = useRef('')
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const history = useHistory();
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/resetarminhasenhazinhaaaa', {
-        email_cpf: email
+      const response = await axios.post('http://localhost:3000/api/esquecisenha', {
+        email_cpf: emailRef.current
       });
-      // Handle success response
-      setToastMessage('E-mail de recuperação enviado com sucesso!');
+
+      const {data} = response.data
+
+      localStorage.setItem('email', emailRef.current);
+      history.push("/codigo");
+
+      setToastMessage(data);
       setShowToast(true);
     } catch (error) {
-      // Handle error response
-      setToastMessage('Erro ao enviar e-mail de recuperação. Por favor, tente novamente.');
+      // @ts-ignore
+      const msg = error.response === undefined ? 'Algo deu errado!' : error.response.data.data
+      setToastMessage(msg)
       setShowToast(true);
-      console.error(error);
     }
   };
 
@@ -38,8 +45,8 @@ const EsqueceuSenha: React.FC = () => {
               <CustomInput
                 placeholder="Digite seu e-mail ou CPF"
                 icon={<MdEmail className="custom-input-icon" />}
-                value={email}
-                onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
+                value={emailRef.current}
+                onChange={(e) => emailRef.current = (e.target as HTMLInputElement).value}
               />
             </div>
             <CustomButton text="Enviar" color="#800000" onClick={handleSubmit} />
@@ -49,7 +56,7 @@ const EsqueceuSenha: React.FC = () => {
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
           message={toastMessage}
-          duration={2000}
+          duration={3500}
         />
       </IonContent>
     </IonPage>

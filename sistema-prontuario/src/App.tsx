@@ -32,11 +32,12 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import SignIn from './pages/singin';
-import SplashScreen from './pages/Abertura';
-import EsqueceuSenha from './pages/Senha_esquecida';
-import VerificarCodigo from './pages/verifica_code';
-import Confirmation from './pages/confirm';
+import Entrar from './pages/entrar';
+import Abertura from './pages/Abertura';
+import EsqueceuSenha from './pages/esqueciSenha';
+import VerificarCodigo from './pages/verificacaoCodigo';
+import NovaSenha from "./pages/novaSenha";
+import ConfirmacaoSenha from "./pages/confirmacaoSenha";
 
 setupIonicReact();
 
@@ -44,20 +45,23 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/login">
-          <SignIn />
+        <Route exact path="/entrar">
+          <Entrar />
         </Route>
         <Route exact path="/">
-          <SplashScreen />
+          <Abertura />
         </Route>
-        <Route exact path="/senha">
+        <Route exact path="/esqueceu-senha">
           <EsqueceuSenha />
         </Route>
-        <Route exact path="/code">
+        <Route exact path="/codigo">
           <VerificarCodigo/>
         </Route>
-        <Route exact path="/confirm">
-          <Confirmation/>
+        <Route exact path="/nova-senha">
+          <NovaSenha/>
+        </Route>
+        <Route exact path="/confirmacao-senha">
+          <ConfirmacaoSenha />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
