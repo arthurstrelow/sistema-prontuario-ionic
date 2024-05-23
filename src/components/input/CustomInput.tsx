@@ -3,19 +3,20 @@ import { IonInput, IonItem } from '@ionic/react';
 import './CustomInput.css';
 
 interface CustomInputProps {
-  type?: string;
   placeholder: string;
-  icon: React.ReactElement;
-  value: string;
-  onChange: (e: CustomEvent) => void;
+    icon: React.ReactElement;
+    value: string;
+    onChange: (e: CustomEvent) => void;
+    type?: string;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({ placeholder, icon, value, onChange }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ placeholder, icon, value, onChange, type = 'text'}) => {
   return (
     <IonItem className="custom-input-item">
       {icon}
       <IonInput
-       
+        /* @ts-ignore */
+        type={type}
         placeholder={placeholder}
         className="custom-input"
         value={value}

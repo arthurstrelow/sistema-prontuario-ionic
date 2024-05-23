@@ -52,7 +52,7 @@ const Entrar: React.FC = () => {
               onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
             />
             <CustomInput
-              type="password"
+              type='password'
               placeholder="Digite sua senha"
               icon={<MdLock className="custom-input-icon" />}
               value={senhaRef.current}
