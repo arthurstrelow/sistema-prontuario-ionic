@@ -1,6 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Home from './pages/Abertura';
 
 /* Core CSS required for Ionic components to work properly */
@@ -32,40 +33,56 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Entrar from './pages/entrar';
+
+/* Paciente */
+import Inicio from "./pages/paciente/inicio";
+import Perfil from './pages/paciente/perfil'
+import Consulta from "./pages/paciente/consulta";
+
+
+/* Médico */
+
+
+/* Funcionario */
+
+
+/* Autenticacao */
+import Entrar from './pages/autenticacao/entrar';
+import EsqueceuSenha from './pages/autenticacao/esqueciSenha';
+import VerificarCodigo from './pages/autenticacao/verificacaoCodigo';
+import NovaSenha from "./pages/autenticacao/novaSenha";
+import ConfirmacaoSenha from "./pages/autenticacao/confirmacaoSenha";
+
+
+/* Geral */
 import Abertura from './pages/Abertura';
-import EsqueceuSenha from './pages/esqueciSenha';
-import VerificarCodigo from './pages/verificacaoCodigo';
-import NovaSenha from "./pages/novaSenha";
-import ConfirmacaoSenha from "./pages/confirmacaoSenha";
+import React from "react";
+
+
 
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/entrar">
-          <Entrar />
-        </Route>
-        <Route exact path="/">
-          <Abertura />
-        </Route>
-        <Route exact path="/esqueceu-senha">
-          <EsqueceuSenha />
-        </Route>
-        <Route exact path="/codigo">
-          <VerificarCodigo/>
-        </Route>
-        <Route exact path="/nova-senha">
-          <NovaSenha/>
-        </Route>
-        <Route exact path="/confirmacao-senha">
-          <ConfirmacaoSenha />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Switch>
+            <Route exact path="/" component={Abertura} />
+            <Route exact path="/entrar" component={Entrar} />
+            <Route exact path="/esqueceu-senha" component={EsqueceuSenha} />
+            <Route exact path="/codigo" component={VerificarCodigo} />
+            <Route exact path="/nova-senha" component={NovaSenha} />
+            <Route exact path="/confirmacao-senha" component={ConfirmacaoSenha} />
+            <Route exact path="/inicio" component={Inicio} />
+            <Route exact path="/perfil" component={Perfil} />
+            <Route exact path="/consulta/:id" component={Consulta} />
+
+            {/* Se nenhuma rota corresponder, redireciona para a página inicial */}
+            <Redirect to="/inicio" />
+          </Switch>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
 );
 
 export default App;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { IonContent, IonPage, IonButton, IonIcon, IonText } from '@ionic/react';
 import { checkmarkCircle } from 'ionicons/icons';
-import CustomButton from '../components/button/CustomButton';
-import '../css/confirm.css';
+import CustomButton from '../../components/button/CustomButton';
+import '../../css/confirm.css';
 import {useHistory} from "react-router-dom";
 
 const confirmacaoSenha: React.FC = () => {

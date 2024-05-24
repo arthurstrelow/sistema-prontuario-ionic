@@ -1,11 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
-import '../css/NovaSenha.css';
+import '../../css/NovaSenha.css';
 import {useHistory} from "react-router-dom";
 import { IonContent, IonPage, IonToast } from '@ionic/react';
 import axios from "axios";
-import CustomInput from "../components/input/CustomInput";
+import CustomInput from "../../components/input/CustomInput";
 import {MdLock} from "react-icons/md";
-import CustomButton from "../components/button/CustomButton";
+import CustomButton from "../../components/button/CustomButton";
 
 const NovaSenha: React.FC = () => {
   const senhaRef = useRef('')

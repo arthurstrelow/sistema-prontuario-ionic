@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { IonContent, IonPage, IonToast } from '@ionic/react';
-import CustomButton from '../components/button/CustomButton';
-import CustomInput from '../components/input/CustomInput';
+import CustomButton from '../../components/button/CustomButton';
+import CustomInput from '../../components/input/CustomInput';
 import { MdEmail } from 'react-icons/md';
-import "../css/senha_esquecida.css";
+import "../../css/senha_esquecida.css";
 import {useHistory} from "react-router-dom";
 
 const EsqueceuSenha: React.FC = () => {

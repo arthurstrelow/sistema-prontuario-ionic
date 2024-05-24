@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { IonContent, IonPage, IonToast } from '@ionic/react';
-import CustomButton from '../components/button/CustomButton';
-import "../css/verifica-code.css";
+import CustomButton from '../../components/button/CustomButton';
+import "../../css/verifica-code.css";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
