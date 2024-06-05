@@ -11,7 +11,7 @@ import '../../css/singin.css';
 
 const Entrar: React.FC = () => {
   const [email, setEmail] = useState('');
-  const senhaRef = useRef('')
+  const [senha, setSenha] = useState('')
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const history = useHistory();
@@ -21,10 +21,11 @@ const Entrar: React.FC = () => {
 
       const response = await axios.post('http://localhost:3000/api/entrar', {
         email_cpf: email,
-        senha: senhaRef.current
+        senha: senha
       })
+      
       const {data, token} = response.data
-
+      console.log(response)
       localStorage.setItem('token', token);
 
       setToastMessage(data);
@@ -35,6 +36,7 @@ const Entrar: React.FC = () => {
       }, 750)
     } catch (error) {
       // @ts-ignore
+      console.log(error.response.data.data);
       const msg = error.response === undefined ? 'Algo deu errado!' : error.response.data.data
       setToastMessage(msg)
       setShowToast(true);
@@ -57,8 +59,8 @@ const Entrar: React.FC = () => {
               type='password'
               placeholder="Digite sua senha"
               icon={<MdLock className="custom-input-icon" />}
-              value={senhaRef.current}
-              onChange={(e) => senhaRef.current = (e.target as HTMLInputElement).value}
+              value={senha}
+              onChange={(e) => setSenha((e.target as HTMLInputElement).value)}
             />
             <a href="/esqueceu-senha" className="forgot-link">Esqueci minha senha</a>
           </div>

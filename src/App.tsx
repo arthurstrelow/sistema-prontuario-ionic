@@ -76,6 +76,7 @@ const App: React.FC = () => (
             <Route exact path="/inicio" component={Inicio} />
             <Route exact path="/perfil" component={Perfil} />
             <Route exact path="/consulta/:id" component={Consulta} />
+           
 
             {/* Se nenhuma rota corresponder, redireciona para a página inicial */}
             <Redirect to="/inicio" />

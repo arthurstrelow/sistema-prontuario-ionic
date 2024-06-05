@@ -1,31 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import {
     IonContent,
-    IonHeader,
     IonPage,
+    IonHeader,
     IonTitle,
     IonToolbar,
-    IonTabs,
     IonTabBar,
     IonTabButton,
     IonIcon,
     IonLabel,
-    IonBadge,
-    IonRouterOutlet,
+    IonLoading,
+    IonAlert,
     IonCard,
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
-    IonCardContent
+    IonCardContent,
+    IonButton,
+    IonList,
+    IonItem,
+    IonAvatar,
+    IonButtons,
+    IonGrid,
+    IonRow,
+    IonCol,
 } from '@ionic/react';
-import { calendar, personCircle } from 'ionicons/icons';
-import { Route, useHistory } from "react-router-dom";
+import { calendar, personCircle, logOutOutline, arrowBackOutline } from 'ionicons/icons';
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
+import CardConsultas from '../../components/Cardconsulta/cardconsulta';
 import '../../css/inicio.css';
-import axios from "axios";
-import {jwtDecode} from "jwt-decode";
-import consulta from "./consulta";
 
-// Função para carregar as consultas
 const carregarConsultas = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -39,109 +45,161 @@ const carregarConsultas = async () => {
     }
 };
 
-const AbaConsulta = () => {
-    let decodificaToken = localStorage.getItem('token') !== null ? jwtDecode(localStorage.getItem('token')) : null
+const Inicio = () => {
     const [consultas, setConsultas] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
     const history = useHistory();
+    const decodificaToken = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : null;
 
     useEffect(() => {
-
         if (!decodificaToken) {
             history.push('/entrar');
             return;
         }
 
-
         const carregar = async () => {
-            let conta = 0
             const data = await carregarConsultas();
-            const novaData: any = []
+            
             if (data) {
-                for (let i = 0; i < data.data.length; i++){
-                    if(data.data[i].id_paciente === decodificaToken.id_user){
-                        novaData[i] = data.data[i]
-                        conta += 1
-                    }
-                }
-                setConsultas(novaData);
-                localStorage.setItem('consu', conta)
+                
+                const consultasFiltradas = data.data.filter((consulta) => consulta.id_paciente === decodificaToken.id_user);
+                console.log(consultasFiltradas)
+                setConsultas((consultas) => consultasFiltradas);
+                
+                
+            } else {
+                setShowAlert(true);
             }
+            setLoading(false);
         };
         carregar();
     }, []);
 
-    // Verificar se há consultas
-    if (consultas.length === 0) {
-        return (
-            <IonContent className="ion-padding">
-                <p>Não há consultas disponíveis.</p>
-            </IonContent>
-        );
-    } else {
-        return (
-            <IonContent className="ion-padding">
-                <div className="cards-container">
-                    {(consultas).map((DadoConsulta, index) => (
-                        <CardConsultas key={index} DadoConsulta={DadoConsulta} />
-                    ))}
-                </div>
-            </IonContent>
-        );
-    }
-};
+    useEffect(() => {
+        const logoutTimeout = setTimeout(() => {
+            setShowAlert(true);
+        }, 600000); 
 
-// Componente de Card de Consulta
-const CardConsultas = ({ DadoConsulta }) => {
-    const history = useHistory();
+        return () => clearTimeout(logoutTimeout);
+    }, []);
 
-    // Função para redirecionar para detalhes da consulta
-    const CardClique = () => {
-        history.push(`/consulta/${DadoConsulta.id_consulta}`);
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        history.push('/entrar');
     };
-    const [hora, minutos] = DadoConsulta.hora_consulta.split(':')
-    return (
-        <IonCard className="appointment-card" onClick={CardClique}>
-            <IonCardHeader className="ion-text-center ion-padding">
-                <IonCardTitle>Médico: {DadoConsulta.nome_medico}</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-                <p>Data Consulta: {new Date(DadoConsulta.data_consulta).toLocaleDateString('pt-BR')}</p>
-                <p>Horário da Consulta: {hora === '00' ? `${hora}:00` : `${hora}:${minutos}`}</p>
-                <p>Especialidade do Médico: {DadoConsulta.especialidade}</p>
-                <p>Consulta realizada: {DadoConsulta.finalizado ? "Sim" : "Não"}</p>
-            </IonCardContent>
-        </IonCard>
 
+
+    // Vai tomar no cu Baiano safado
+
+
+
+    return (
+        <IonPage>
+            <IonHeader>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonButton onClick={() => history.goBack()}>
+                            <IonIcon icon={arrowBackOutline} />
+                        </IonButton>
+                    </IonButtons>
+                    <IonTitle>MedClini</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={handleLogout}>
+                            <IonIcon icon={logOutOutline} />
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent>
+                <div className="inicio-header">
+                    <h1>Olá, Fuuas</h1>
+                    <div className="info-card">
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonCardSubtitle>Paciente</IonCardSubtitle>
+                                <IonCardTitle>Informações do Paciente</IonCardTitle>
+                            </IonCardHeader>
+                            <IonCardContent>
+                                Aqui você encontra informações importantes sobre o paciente.
+                            </IonCardContent>
+                        </IonCard>
+                        <img src="caminho_para_imagem" alt="Imagem do Paciente" className="patient-image" />
+                    </div>
+                </div>
+
+                {loading ? (
+                    <IonLoading isOpen={loading} message={"Carregando..."} />
+                ) : (
+                    <>
+                        {consultas.length == 0 ? (
+                            <p>Não há consultas disponíveis.</p>
+                        ) : (
+                            <div className="cards-container-horizontal">
+                                
+                                {consultas.map((DadoConsulta, index) => (
+                                    <CardConsultas key={index} DadoConsulta={DadoConsulta} />
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
+
+                <IonAlert
+                    isOpen={showAlert}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Alerta'}
+                    message={'Ocorreu um erro ao carregar as consultas. Por favor, tente novamente mais tarde.'}
+                    buttons={['OK']}
+                />
+                <IonGrid>
+                    <IonRow>
+                        <IonCol size="12" size-md="4">
+                            <section className="health-section">
+                                <header>
+                                    <h3>Adicionar algo </h3>
+                                    <h2>pronto para add</h2>
+                                </header>
+                                <div className="section-content">
+                                    <IonList>
+                                        <IonItem>
+                                            <IonAvatar slot="start">
+                                                <img src="caminho_para_imagem_exame1" alt="Exame 1" />
+                                            </IonAvatar>
+                                            <IonLabel>
+                                                <h2>Fuuas exames</h2>
+                                                <p>Data: 20/04/2024</p>
+                                            </IonLabel>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonAvatar slot="start">
+                                                <img src="caminho_para_imagem_exame2" alt="Exame 2" />
+                                            </IonAvatar>
+                                            <IonLabel>
+                                                <h2>XXX</h2>
+                                                <p>Data: 15/03/2024</p>
+                                            </IonLabel>
+                                        </IonItem>
+                                    </IonList>
+                                </div>
+                            </section>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+
+            </IonContent>
+            <IonTabBar slot="bottom">
+                <IonTabButton tab="consultas" href="/inicio">
+                    <IonIcon icon={calendar} />
+                    <IonLabel>Consultas</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="perfil" href="/perfil">
+                    <IonIcon icon={personCircle} />
+                    <IonLabel>Perfil</IonLabel>
+                </IonTabButton>
+            </IonTabBar>
+        </IonPage>
     );
 };
-
-const Inicio = () => (
-    <IonPage>
-        <IonHeader>
-            <IonToolbar>
-                <IonTitle style={{ textAlign: 'center' }}>Consultas</IonTitle>
-            </IonToolbar>
-        </IonHeader>
-        <IonContent>
-            <IonTabs>
-                <IonRouterOutlet>
-                    <Route path="/inicio" component={AbaConsulta} exact={true} />
-                    {/* Adicione outras rotas conforme necessário */}
-                </IonRouterOutlet>
-                <IonTabBar slot="bottom">
-                    <IonTabButton tab="inicio" href="/inicio">
-                        <IonIcon icon={calendar} />
-                        <IonLabel>Consultas</IonLabel>
-                        <IonBadge>{localStorage.getItem('consu')}</IonBadge>
-                    </IonTabButton>
-                    <IonTabButton tab="perfil" href="/perfil">
-                        <IonIcon icon={personCircle} />
-                        <IonLabel>Perfil</IonLabel>
-                    </IonTabButton>
-                </IonTabBar>
-            </IonTabs>
-        </IonContent>
-    </IonPage>
-);
 
 export default Inicio;

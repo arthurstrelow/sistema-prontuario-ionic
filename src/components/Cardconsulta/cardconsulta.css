@@ -1,0 +1,120 @@
+.ion-padding {
+    padding: 15px;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.status-card {
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px 0;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-card-content {
+    padding: 15px;
+}
+
+.status-number {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.add-button {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 10;
+    --background: #3880ff;
+    --background-activated: #3171e0;
+    --background-focused: #3171e0;
+    --background-hover: #4c8dff;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+    }
+}
+
+.appointment-card {
+    transition: all 0.3s ease-in-out;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding: 10px;
+    height: auto;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.card-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 5px;
+}
+
+.card-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card-label, .card-detail {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.details-button {
+    align-self: flex-end;
+    --background: #3880ff;
+    --background-activated: #3171e0;
+    --background-focused: #3171e0;
+    --background-hover: #4c8dff;
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.details-button:hover {
+    --background-hover: #3171e0;
+    transform: scale(1.05);
+}

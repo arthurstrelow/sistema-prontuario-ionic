@@ -1,0 +1,57 @@
+.consulta-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh; /* Ocupa a altura total da tela */
+}
+
+.consulta-card {
+    width: 100%;
+    
+    margin: 0px;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.info-section {
+    margin-bottom: 15px;
+}
+
+.info-section ion-card-subtitle {
+    font-weight: bold;
+    color: #666;
+}
+
+.info-section ion-label {
+    font-size: 16px;
+    color: #333;
+}
+
+.download-section {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #007bff; /* Cor do texto */
+    margin-top: 20px;
+}
+
+.download-section ion-icon {
+    margin-right: 5px;
+}
+
+.download-section:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}
+
+.ion-button {
+    margin-right: 10px;
+}
