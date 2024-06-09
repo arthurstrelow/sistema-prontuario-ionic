@@ -57,6 +57,10 @@ import ConfirmacaoSenha from "./pages/autenticacao/confirmacaoSenha";
 /* Geral */
 import Abertura from './pages/Abertura';
 import React from "react";
+import EditarConsulta from "./pages/consultacrud/editarconsulta"
+import ConsultasLista from './pages/consultacrud/inicialcrud';
+import NovaConsulta from './pages/consultacrud/criarConsulta';
+import Chat from './pages/chat/chat';
 
 
 
@@ -75,7 +79,11 @@ const App: React.FC = () => (
             <Route exact path="/confirmacao-senha" component={ConfirmacaoSenha} />
             <Route exact path="/inicio" component={Inicio} />
             <Route exact path="/perfil" component={Perfil} />
+            <Route exact path="/consultasinit" component={ConsultasLista} />
+            <Route path="/editar/:id" component={EditarConsulta}  />
+            <Route path="/criarconsulta" component={NovaConsulta}  />
             <Route exact path="/consulta/:id" component={Consulta} />
+            <Route exact path="/chat" component={Chat} />
            
 
             {/* Se nenhuma rota corresponder, redireciona para a página inicial */}
