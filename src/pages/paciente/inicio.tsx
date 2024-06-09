@@ -197,6 +197,10 @@ const Inicio = () => {
                     <IonIcon icon={personCircle} />
                     <IonLabel>Perfil</IonLabel>
                 </IonTabButton>
+                <IonTabButton tab="Chat" href="/Chat">
+                    <IonIcon icon={personCircle} />
+                    <IonLabel>Chat</IonLabel>
+                </IonTabButton>
             </IonTabBar>
         </IonPage>
     );

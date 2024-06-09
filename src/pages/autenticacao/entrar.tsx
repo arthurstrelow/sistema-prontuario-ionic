@@ -23,7 +23,7 @@ const Entrar: React.FC = () => {
         email_cpf: email,
         senha: senha
       })
-      
+  
       const {data, token} = response.data
       console.log(response)
       localStorage.setItem('token', token);
