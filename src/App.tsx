@@ -35,9 +35,9 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 
 /* Paciente */
-import Inicio from "./pages/paciente/inicio";
-import Perfil from './pages/paciente/perfil'
-import Consulta from "./pages/paciente/consulta";
+import Inicio from "./pages/views/Cliente/paciente/inicio";
+import Perfil from './pages/views/Cliente/paciente/perfil'
+import Consulta from "./pages/views/Cliente/paciente/consulta";
 
 
 /* Médico */
@@ -57,10 +57,14 @@ import ConfirmacaoSenha from "./pages/autenticacao/confirmacaoSenha";
 /* Geral */
 import Abertura from './pages/Abertura';
 import React from "react";
-import EditarConsulta from "./pages/consultacrud/editarconsulta"
-import ConsultasLista from './pages/consultacrud/inicialcrud';
-import NovaConsulta from './pages/consultacrud/criarConsulta';
-import Chat from './pages/chat/chat';
+import EditarConsulta from "./pages/views/Funcionario/consultacrud/editarconsulta"
+import ConsultasLista from './pages/views/Funcionario/consultacrud/inicialcrud';
+import NovaConsulta from './pages/views/Funcionario/consultacrud/criarConsulta';
+import Chat from './pages/views/Cliente/chat/chat';
+import Admin from './pages/views/Funcionario/admin/admin';
+import AdminPage from './pages/views/Funcionario/admin/admin';
+import PerfilClientePage from './pages/views/Cliente/paciente/perfilcliente';
+import Profile from './pages/views/Cliente/paciente/perfilcliente';
 
 
 
@@ -82,12 +86,15 @@ const App: React.FC = () => (
             <Route exact path="/consultasinit" component={ConsultasLista} />
             <Route path="/editar/:id" component={EditarConsulta}  />
             <Route path="/criarconsulta" component={NovaConsulta}  />
+            <Route exact path="/adminpage" component={AdminPage} />
             <Route exact path="/consulta/:id" component={Consulta} />
-            <Route exact path="/chat" component={Chat} />
+            <Route exact path="/cliente/chat" component={Chat} />
+            <Route exact path="/perfil/cliente" component={Profile} />
+            
            
 
             {/* Se nenhuma rota corresponder, redireciona para a página inicial */}
-            <Redirect to="/inicio" />
+            {/* <Redirect to="/inicio" /> */}
           </Switch>
         </IonRouterOutlet>
       </IonReactRouter>

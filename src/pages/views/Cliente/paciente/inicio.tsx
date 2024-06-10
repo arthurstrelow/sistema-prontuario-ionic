@@ -29,26 +29,39 @@ import { calendar, personCircle, logOutOutline, arrowBackOutline } from 'ionicon
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-import CardConsultas from '../../components/Cardconsulta/cardconsulta';
-import '../../css/inicio.css';
+import CardConsultas from '../../../../components/Cardconsulta/cardconsulta';
+import '../.../../../../../css/inicio.css';
+import { getConsultaPaciente, getProfile } from '../../../../service/service';
 
-const carregarConsultas = async () => {
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) return null;
 
-        const headers = { headers: { authorization: `Bearer ${token}` } };
-        const response = await axios.get('http://localhost:3000/api/listar/consultas', headers);
-        return response.data;
-    } catch (error) {
-        return [];
-    }
-};
 
 const Inicio = () => {
     const [consultas, setConsultas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
+    const [pacienteinfos, setPaciennteinfos] = useState({}) // acesso a toodas as informaçoes do paciente isso inclue os seguintes ponto para dinamitização
+//     altura
+// bairro
+// cep
+// cidade
+// complemento
+// cpf
+// criado_em
+// datanascimento
+// editado_em
+// email
+// estado
+// genero
+// historico_medico
+// id_paciente
+// medicamentos_em_uso
+// nome
+// numero
+// peso
+// rua
+// telefone
+// tipo_sanguineo
+// tipo_usuario
     const history = useHistory();
     const decodificaToken = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : null;
 
@@ -59,15 +72,14 @@ const Inicio = () => {
         }
 
         const carregar = async () => {
-            const data = await carregarConsultas();
+            const data = await getConsultaPaciente();
+            const infopaciente = await getProfile()
+            console.log(infopaciente)
+            setPaciennteinfos(infopaciente)
+           
             
-            if (data) {
-                
-                const consultasFiltradas = data.data.filter((consulta) => consulta.id_paciente === decodificaToken.id_user);
-                console.log(consultasFiltradas)
-                setConsultas((consultas) => consultasFiltradas);
-                
-                
+            if (data) {  
+                setConsultas(data);                   
             } else {
                 setShowAlert(true);
             }
@@ -113,11 +125,11 @@ const Inicio = () => {
             </IonHeader>
             <IonContent>
                 <div className="inicio-header">
-                    <h1>Olá, Fuuas</h1>
+                    <h1>Olá, {pacienteinfos.nome}</h1>
                     <div className="info-card">
                         <IonCard>
                             <IonCardHeader>
-                                <IonCardSubtitle>Paciente</IonCardSubtitle>
+                                <IonCardSubtitle>{pacienteinfos.nome}</IonCardSubtitle>
                                 <IonCardTitle>Informações do Paciente</IonCardTitle>
                             </IonCardHeader>
                             <IonCardContent>
@@ -152,6 +164,36 @@ const Inicio = () => {
                     message={'Ocorreu um erro ao carregar as consultas. Por favor, tente novamente mais tarde.'}
                     buttons={['OK']}
                 />
+
+
+<IonGrid>
+                    <IonRow>
+                        <IonCol size="12" size-md="4">
+                            <section className="health-section">
+                                <header>
+                                    <h3>Medicamentos em Uso</h3>
+                                </header>
+                                <div className="section-content">
+                                    <IonList>
+                                        
+                                            
+                                                <IonItem>
+                                                    <IonAvatar slot="start">
+                                                        <img src="caminho_para_imagem_medicamento" alt={`Medicamento ${1}`} />
+                                                    </IonAvatar>
+                                                    <IonLabel>
+                                                        <h2>{pacienteinfos.medicamentos_em_uso}</h2>
+                                                    </IonLabel>
+                                                </IonItem>
+                                         
+                                    </IonList>
+                                </div>
+                            </section>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+
+
                 <IonGrid>
                     <IonRow>
                         <IonCol size="12" size-md="4">
@@ -193,11 +235,11 @@ const Inicio = () => {
                     <IonIcon icon={calendar} />
                     <IonLabel>Consultas</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="perfil" href="/perfil">
+                <IonTabButton tab="perfil" href="/perfil/cliente">
                     <IonIcon icon={personCircle} />
                     <IonLabel>Perfil</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="Chat" href="/Chat">
+                <IonTabButton tab="Chat" href="cliente/Chat">
                     <IonIcon icon={personCircle} />
                     <IonLabel>Chat</IonLabel>
                 </IonTabButton>

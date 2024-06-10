@@ -20,10 +20,11 @@ import {
     IonButton,
 } from '@ionic/react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { calendar, personCircle, downloadOutline, logOutOutline, arrowBackOutline } from "ionicons/icons";
+import { calendar, personCircle, downloadOutline, logOutOutline, arrowBackOutline,settingsOutline } from "ionicons/icons";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
-import "../../css/consulta.css";
+import "../../../../css/consulta.css";
+import { ConsultaEspecifica } from '../../../../service/service';
 
 interface ConsultaProps extends RouteComponentProps<{ id: string }> {}
 
@@ -45,12 +46,9 @@ const Consulta: React.FC<ConsultaProps> = ({ match }) => {
                     return;
                 }
 
-                const headers = { headers: { authorization: `Bearer ${token}` } };
-                const response = await axios.post('http://localhost:3000/api/listar/consulta', {
-                    "id_consulta": parseInt(id)
-                }, headers);
+                const response =  await ConsultaEspecifica(id)
 
-                setConsulta(response.data.data);
+                setConsulta(response);
             } catch (error) {
                 setShowAlert(true);
             } finally {
@@ -152,6 +150,10 @@ const Consulta: React.FC<ConsultaProps> = ({ match }) => {
                 <IonTabButton tab="perfil" href="/perfil">
                     <IonIcon icon={personCircle} />
                     <IonLabel>Perfil</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Chat" href="cliente/Chat">
+                    <IonIcon icon={personCircle} />
+                    <IonLabel>Chat</IonLabel>
                 </IonTabButton>
             </IonTabBar>
         </IonPage>

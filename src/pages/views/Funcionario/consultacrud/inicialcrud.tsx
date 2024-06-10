@@ -1,36 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonButton, IonButtons, IonLoading, IonAlert
+  IonList, IonItem, IonLabel, IonButton, IonButtons, IonLoading, IonAlert, IonTabBar,IonTabButton,IonIcon
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
-
+import { calendar, personCircle, logOutOutline, arrowBackOutline, settingsOutline } from 'ionicons/icons';
+import { allConsultas, delCosulta } from '../../../../service/service';
 const ConsultasLista: React.FC = () => {
   const [consultations, setConsultations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
+  const [deletconfim, setDeleteconfim] = useState(false);
   const [selectedConsultaId, setSelectedConsultaId] = useState(null);
   const history = useHistory();
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : null;
 
-  const carregarConsultas = async () => {
-    try {
-      if (!token) return [];
-
-      const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.get('http://localhost:3000/api/listar/consultas', headers);
-      console.log(response);
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching consultations:', error);
-      return [];
-    }
-  };
+  
 
   useEffect(() => {
     if (!decodedToken) {
@@ -39,18 +29,18 @@ const ConsultasLista: React.FC = () => {
     }
 
     const carregar = async () => {
-      const data = await carregarConsultas();
+      const data = await allConsultas();
       if (data) {
         setConsultations(data);
       } else {
-        setAlertMessage('Cosulta apagada com sucesso');
+        setAlertMessage('Unable to fetch consultations. Please try again later.');
         setShowAlert(true);
       }
       setLoading(false);
     };
 
     carregar();
-  }, [history, decodedToken]);
+  }, []);
 
   useEffect(() => {
     const logoutTimeout = setTimeout(() => {
@@ -68,12 +58,14 @@ const ConsultasLista: React.FC = () => {
   const handleDeleteClick = (id_consulta) => {
     setSelectedConsultaId(id_consulta);
     setShowConfirm(true);
+    setDeleteconfim(true)
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.delete('http://localhost:3000/api/remover/consulta', { data: { id_consulta: selectedConsultaId }, headers });
+  
+      const response = await delCosulta(selectedConsultaId)
+      console.log(response)
       if (response.data.status_code === 200) {
         setConsultations(consultations.filter(consulta => consulta.id_consulta !== selectedConsultaId));
       } else {
@@ -81,7 +73,8 @@ const ConsultasLista: React.FC = () => {
         setShowAlert(true);
       }
     } catch (error) {
-      setAlertMessage('Error removing consultation. Please try again later.');
+      console.log(error)
+      setAlertMessage(error.message);
       setShowAlert(true);
     } finally {
       setShowConfirm(false);
@@ -94,7 +87,7 @@ const ConsultasLista: React.FC = () => {
         <IonToolbar>
           <IonTitle>Consultas</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={() => history.push('/cadastro')}>Nova Consulta</IonButton>
+            <IonButton onClick={() => history.push('/criarconsulta')}>Nova Consulta</IonButton>
             <IonButton color="danger" onClick={handleLogout}>Logout</IonButton>
           </IonButtons>
         </IonToolbar>
@@ -145,6 +138,20 @@ const ConsultasLista: React.FC = () => {
           ]}
         />
       </IonContent>
+      <IonTabBar slot="bottom">
+                <IonTabButton tab="consultas" href="/inicio">
+                    <IonIcon icon={calendar} />
+                    <IonLabel>Consultas</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="perfil" href="/perfil">
+                    <IonIcon icon={personCircle} />
+                    <IonLabel>Perfil</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="admin" href="/admin">
+                    <IonIcon icon={settingsOutline} />
+                    <IonLabel>Administração</IonLabel>
+                </IonTabButton>
+            </IonTabBar>
     </IonPage>
   );
 };
