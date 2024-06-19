@@ -5,6 +5,7 @@ import {
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import {type} from "@testing-library/user-event/utility/type";
 
 const NovaConsulta: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -39,9 +40,13 @@ const NovaConsulta: React.FC = () => {
         hora_consulta: formData.hora_consulta + ':00' 
       };
 
-      const headers = { headers: { authorization: `Bearer ${token}` } };
+      const headers = {
+        headers: {
+          "authorization": `Bearer ${token}`,
+        }
+      }
       console.log(formattedData);
-      const response = await axios.post('http://localhost:3000/api/cadastrar/consulta', formattedData, headers);
+      const response = await axios.post('https://sistema-prontuario.onrender.com/api/cadastrar/consulta', formattedData, headers);
       console.log(response);
       if (response.data.status_code === 200) {
         history.push('/consultas');
@@ -50,6 +55,7 @@ const NovaConsulta: React.FC = () => {
         setShowAlert(true);
       }
     } catch (error) {
+      console.log(error)
       setAlertMessage('fuleiro dms');
       setShowAlert(true);
     } finally {

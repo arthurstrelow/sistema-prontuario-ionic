@@ -31,7 +31,7 @@ const NovaSenha: React.FC = () => {
       setShowToast(true);
     }else{
       try{
-        const request = await axios.post('http://localhost:3000/api/resetarsenha', {
+        const request = await axios.post('https://sistema-prontuario.onrender.com/api/resetarsenha', {
           'email_cpf': email,
           'codigo': codigo,
           'senha': senhaRef.current

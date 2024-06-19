@@ -46,7 +46,7 @@ const Consulta: React.FC<ConsultaProps> = ({ match }) => {
                 }
 
                 const headers = { headers: { authorization: `Bearer ${token}` } };
-                const response = await axios.post('http://localhost:3000/api/listar/consulta', {
+                const response = await axios.post('https://sistema-prontuario.onrender.com/api/listar/consulta', {
                     "id_consulta": parseInt(id)
                 }, headers);
 

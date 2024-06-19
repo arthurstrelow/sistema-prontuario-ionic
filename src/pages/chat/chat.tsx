@@ -17,7 +17,7 @@ const Chat: React.FC = () => {
   const fetchMessages = async () => {
     try {
       const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.get('http://localhost:3000/api/listar/mensagens', headers);
+      const response = await axios.get('https://sistema-prontuario.onrender.com/api/listar/mensagens', headers);
       setMessages(response.data.data);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -32,7 +32,7 @@ const Chat: React.FC = () => {
     setSending(true);
     try {
       const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.post('http://localhost:3000/api/enviar/mensagem', { text: newMessage }, headers);
+      const response = await axios.post('https://sistema-prontuario.onrender.com/api/enviar/mensagem', { text: newMessage }, headers);
       if (response.data.status_code === 200) {
         setMessages([...messages, response.data.message]);
         setNewMessage('');

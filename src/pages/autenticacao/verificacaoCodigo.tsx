@@ -40,7 +40,7 @@ const VerificarCodigo: React.FC = () => {
     const verificationCode = codes.join('');
     await axios({
       method: 'POST',
-      url: 'http://localhost:3000/api/verificacodigo',
+      url: 'https://sistema-prontuario.onrender.com/api/verificacodigo',
       data: {'email_cpf': email, 'codigo': verificationCode}
     }).then(async (result)=> {
       history.push("/nova-senha");

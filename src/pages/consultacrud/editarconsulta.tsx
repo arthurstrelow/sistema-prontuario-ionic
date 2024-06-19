@@ -23,7 +23,7 @@ const ConsultasLista: React.FC = () => {
       if (!token) return [];
 
       const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.get('http://localhost:3000/api/listar/consultas', headers);
+      const response = await axios.get('https://sistema-prontuario.onrender.com/api/listar/consultas', headers);
       console.log(response);
       return response.data.data;
     } catch (error) {
@@ -73,7 +73,7 @@ const ConsultasLista: React.FC = () => {
   const handleDeleteConfirm = async () => {
     try {
       const headers = { headers: { authorization: `Bearer ${token}` } };
-      const response = await axios.delete('http://localhost:3000/api/remover/consulta', { data: { id_consulta: selectedConsultaId }, headers });
+      const response = await axios.delete('https://sistema-prontuario.onrender.com/api/remover/consulta', { data: { id_consulta: selectedConsultaId }, headers });
       if (response.data.status_code === 200) {
         setConsultations(consultations.filter(consulta => consulta.id_consulta !== selectedConsultaId));
       } else {

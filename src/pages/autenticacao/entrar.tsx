@@ -19,7 +19,7 @@ const Entrar: React.FC = () => {
   const handleSubmit = async () => {
     try {
 
-      const response = await axios.post('http://localhost:3000/api/entrar', {
+      const response = await axios.post('https://sistema-prontuario.onrender.com/api/entrar', {
         email_cpf: email,
         senha: senha
       })

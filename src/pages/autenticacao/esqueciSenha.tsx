@@ -15,7 +15,7 @@ const EsqueceuSenha: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/esquecisenha', {
+      const response = await axios.post('https://sistema-prontuario.onrender.com/api/esquecisenha', {
         email_cpf: emailRef.current
       });
 

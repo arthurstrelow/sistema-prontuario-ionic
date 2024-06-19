@@ -38,7 +38,7 @@ const carregarConsultas = async () => {
         if (!token) return null;
 
         const headers = { headers: { authorization: `Bearer ${token}` } };
-        const response = await axios.get('http://localhost:3000/api/listar/consultas', headers);
+        const response = await axios.get('https://sistema-prontuario.onrender.com/api/listar/consultas', headers);
         return response.data;
     } catch (error) {
         return [];
